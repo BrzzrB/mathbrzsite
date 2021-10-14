@@ -45,7 +45,7 @@ public class MyAccountPlusController {
 
     @PostMapping("/task/{id}/edit")
     public String TaskUpdate(@PathVariable(value = "id") Long id, @RequestParam String title, @RequestParam String condition, @RequestParam String theme) {
-        Post post = postRepository.findById(id).orElseThrow();
+        Post post = postRepository.findById(id).get();
         post.setTitle(title);
         post.setCondition(condition);
         post.setTheme(theme);
@@ -55,14 +55,14 @@ public class MyAccountPlusController {
 
     @PostMapping("/{id}/remove")
     public String TaskDelete(@PathVariable(value = "id") Long id) {
-        Post post = postRepository.findById(id).orElseThrow();
+        Post post = postRepository.findById(id).get();
         postRepository.delete(post);
         return "redirect:/MyAccount";
     }
 
     @PostMapping("/admin/{userId}/{taskId}/remove")
     public String TaskDeleteAdmin(@PathVariable(value = "userId") String userId, @PathVariable(value = "taskId") Long taskId) {
-        Post post = postRepository.findById(taskId).orElseThrow();
+        Post post = postRepository.findById(taskId).get();
         postRepository.delete(post);
         return "redirect:/admin/{userId}";
     }
